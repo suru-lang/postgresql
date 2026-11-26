@@ -1,5 +1,5 @@
 名前 とは 「PostgreSQL」
-版 とは 「0.1.0」
+版 とは 「0.2.0」
 外部依存 とは 「libpq@9.1」
 導入案内 とは 「macOS: brew install libpq して export PKG_CONFIG_PATH="$(brew --prefix libpq)/lib/pkgconfig"」 と 「Debian・Ubuntu: sudo apt install libpq-dev」 と 「Fedora: sudo dnf install libpq-devel」
 依存 とは 「github.com/suru-lang/db@0.1.0」
