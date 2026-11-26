@@ -14,7 +14,7 @@ kumu 追加 github.com/suru-lang/postgresql
 
 「蔵」 (suru-lang/db) comes along as a dependency. libpq is required on the system (the `外部依存` in 組.suru; if it is missing, kumu shows how to install it and stops).
 
-Suru 0.9.0 or later is required (the library writes its C functions with 「以下の外部の入出力動作です … 以上です」).
+Suru 0.9.1 or later is required (the library writes its C functions with 「以下は外部の入出力動作です … 以上です」).
 
 - macOS: `brew install libpq`, then `export PKG_CONFIG_PATH="$(brew --prefix libpq)/lib/pkgconfig"`
 - Debian, Ubuntu: `sudo apt install libpq-dev`
