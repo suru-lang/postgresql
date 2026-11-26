@@ -14,6 +14,8 @@ kumu 追加 github.com/suru-lang/postgresql
 
 「蔵」(suru-lang/db)も依存として一緒に入ります。システムに libpq が要ります(組.suru の `外部依存`。無ければ kumu が入れ方を出して止まります)。
 
+する 本体は 0.9.0 以上が要ります(ライブラリが C の関数を「以下の外部の入出力動作です … 以上です」で書くため)。
+
 - macOS: `brew install libpq` して `export PKG_CONFIG_PATH="$(brew --prefix libpq)/lib/pkgconfig"`
 - Debian・Ubuntu: `sudo apt install libpq-dev`
 - Fedora: `sudo dnf install libpq-devel`
