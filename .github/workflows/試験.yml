@@ -1,0 +1,64 @@
+# kumu 試験 と kumu 点検 を、Linux(PostgreSQL はサービスのコンテナ)と macOS(Homebrew の PostgreSQL)で動かします
+name: 試験
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: libpq と clang を入れる
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev clang pkg-config
+      - name: kumu を入れる
+        run: go install github.com/suru-lang/suru/cmd/kumu@main
+      - name: 試験
+        run: ~/go/bin/kumu 試験
+      - name: 点検
+        run: ~/go/bin/kumu 点検
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: PostgreSQL を入れて動かす
+        run: |
+          brew install postgresql@16 libpq pkg-config
+          brew services start postgresql@16
+          echo "PKG_CONFIG_PATH=$(brew --prefix libpq)/lib/pkgconfig" >> "$GITHUB_ENV"
+          echo "PGHOST=localhost" >> "$GITHUB_ENV"
+          echo "PGUSER=$(whoami)" >> "$GITHUB_ENV"
+          echo "PGDATABASE=postgres" >> "$GITHUB_ENV"
+          for i in $(seq 1 30); do "$(brew --prefix postgresql@16)/bin/pg_isready" -h localhost && break; sleep 1; done
+      - name: kumu を入れる
+        run: go install github.com/suru-lang/suru/cmd/kumu@main
+      - name: 試験
+        run: ~/go/bin/kumu 試験
+      - name: 点検
+        run: ~/go/bin/kumu 点検
