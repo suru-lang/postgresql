@@ -56,7 +56,7 @@ DB行 を 品表示文にする は 文字列
 
 ## API ドキュメント
 
-API ドキュメントは `PostgreSQL.suru` の注釈から作ります。ファイルの頭の注釈と、公開の定義のすぐ上の注釈で、英語で書いています。
+API ドキュメントは `PostgreSQL.suru` の注釈から作ります。ファイルの頭の注釈と、公開の定義のすぐ上の注釈で、英語で書いています。公開先は https://suru-lang-postgresql.readthedocs.io/en/latest/ です。
 
 ```sh
 kumu 文書                                                            # docs/api/PostgreSQL.md を書く
