@@ -56,7 +56,7 @@ All the functions are those of 「蔵」 (see its README). Replacing `PostgreSQL
 
 ## API documentation
 
-The API documentation is made from the comments in `PostgreSQL.suru`: the head comment of the file and the comment right above each public definition, written in English.
+The API documentation is made from the comments in `PostgreSQL.suru`: the head comment of the file and the comment right above each public definition, written in English. It is published at https://suru-lang-postgresql.readthedocs.io/en/latest/.
 
 ```sh
 kumu 文書                                                            # writes docs/api/PostgreSQL.md
