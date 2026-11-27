@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 sugarsweetrobotics(LICENSE)
-# 「する」の PostgreSQL の駆動(データベースの層「蔵」で使います。libpq を外部の関数として呼びます)
-# kumu 追加 github.com/suru-lang/postgresql で依存に足し、使うファイルに 「PostgreSQL」 を 読み込んで 使う と書きます。
+# The PostgreSQL driver for Suru, used with the database layer 「蔵」. It calls libpq through external functions.
+# Add it with `kumu 追加 github.com/suru-lang/postgresql` and write `「PostgreSQL」 を 読み込んで 使う` in your file.
 #
-#   先 を PostgreSQL駆動 で DB開封する   … つなぐ。先 は libpq の接続文字列(「host=localhost dbname=店 user=花子」や
-#                                          「postgresql://花子@localhost/店」)。「」なら環境変数 PGHOST・PGUSER・PGPASSWORD など
-# あとは「蔵」の関数(DB実行する・DB差込問合する・DB行問合する・DB取引する など)で使います。
-#   - 「?」は「$1」「$2」… に書き換えて渡します(文字列と囲んだ名前の中はそのまま)
-#   - 値のない DB実行する は「;」で区切って何文でも書けます
-#   - DB最終番号取得する は SELECT lastval()(同じ接続で最後に進めた連番)
-#   - つないだら client_min_messages を WARNING にします(NOTICE を標準エラーに出さない)
-#   - 読んだ値: 整数・小数・numeric は DB数、boolean は DB真偽、bytea は DBバイト列、ほかは DB文字列
-# 失敗すると「PostgreSQL で『SELEC 1』を実行するのに失敗しました(ERROR:  syntax error at or near "SELEC" …)」のような
-# 実行時エラーになります(試行する で受け止められます)。
+# `先 を PostgreSQL駆動 で DB開封する` connects. 先 is a libpq connection string (「host=localhost dbname=店 user=花子」 or 「postgresql://花子@localhost/店」). With 「」, the environment variables PGHOST, PGUSER, PGPASSWORD and so on are used.
+# Then use the functions of 「蔵」 (`DB実行する`, `DB差込問合する`, `DB行問合する`, `DB取引する` and so on).
+#
+# - 「?」 is rewritten to 「$1」, 「$2」 and so on (not inside strings or quoted names).
+# - `DB実行する` without values can run several statements separated by 「;」.
+# - `DB最終番号取得する` is SELECT lastval() (the sequence value last advanced on the same connection).
+# - After connecting, client_min_messages is set to WARNING, so NOTICE is not written to standard error.
+# - Values read: integers, decimals and numeric are `DB数`, boolean is `DB真偽`, bytea is `DBバイト列`, and the rest are `DB文字列`.
+#
+# A failure is a runtime error such as 「PostgreSQL で『SELEC 1』を実行するのに失敗しました(ERROR:  syntax error at or near "SELEC" …)」, which `試行する` can catch.
 外部の「pq」 を 読み込む
 外部の「c」 を 読み込む
 「標準」 を 読み込んで 使う
@@ -46,6 +46,7 @@
 
 # --- 駆動 ---
 
+# The PostgreSQL driver for 「蔵」. Use it as `先 を PostgreSQL駆動 で DB開封する`.
 PostgreSQL駆動 とは 「PostgreSQL」 と PG開封すること の DB駆動
 
 文字列 を PG開封する は DB接続 を 返す 入出力動作
@@ -122,7 +123,7 @@ v を i で 表群 に 置場群 から 他 より PG一値書込する とは �
   新置場群 とは もし （p を 番地数値にする） = 0 ならば 置場群 そうでなければ p を 置場群 に 挿入する
   他 を i + 1 で 表群 に 新置場群 から PG値群書込する
 
-# 送る値: 無か、文字(形式 0)か、バイト列(形式 1)
+# Used inside the library: a value to send, which is none, text (format 0) or bytes (format 1).
 PG送り とは PG送り有無 と PG送りバイト と PG送り長さ と PG送り形式 の 組
 
 DB値 を PG送り形にする は PG送り

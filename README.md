@@ -54,6 +54,17 @@ All the functions are those of 「蔵」 (see its README). Replacing `PostgreSQL
 5. **The last id.** `DB最終番号取得する` is `SELECT lastval()`: the value most recently taken from a sequence (such as a `BIGSERIAL` column) on the same connection. `INSERT … RETURNING 番号` with `DB問合する` also works.
 6. **Failures are runtime errors.** They carry PostgreSQL's message, like 「PostgreSQL で『SELEC 1』を実行するのに失敗しました(ERROR:  syntax error at or near "SELEC" …)」 ("failed to run 『SELEC 1』 in PostgreSQL (…)"), and are catchable with `試行する`. Results are freed even on failure.
 
+## API documentation
+
+The API documentation is made from the comments in `PostgreSQL.suru`: the head comment of the file and the comment right above each public definition, written in English.
+
+```sh
+kumu 文書                                                            # writes docs/api/PostgreSQL.md
+pip install -r docs/requirements.txt && sphinx-build docs docs/_build   # HTML in docs/_build
+```
+
+`docs/` and `.readthedocs.yaml` were written by `kumu 文書 --雛形` (Suru 0.11.0 or later). On every build, Read the Docs downloads kumu 0.11.0, runs `kumu 文書 --出力 docs/api` and then Sphinx, so the generated pages are not committed. The editor hover shows the same descriptions.
+
 ## Tests
 
 The tests use a real PostgreSQL server, chosen with the environment variables (`PGHOST`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`). They create and drop tables named `人_…`.
